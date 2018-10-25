@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="OfflineReferenceSelector.widget.OfflineReferenceSelector" offlineCapable="true" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+  <name>OfflineReferenceSelector</name>
+  <description></description>
+
+      <icon>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+        jwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAeZJREFU
+        OE9j/P//PwNFAGQAJZgizWDXU2I7igF2dnbcWVlZpa2tre/mzZv3v6am5mFOTo45EEsA2XdBYiA5
+        kBqQWpjFYBcYGRmx+fj4dE2cOPH/ixcv/t+9e/f/wYMH/zc2Nt6rrq4+dPPmzR8gsSNHjvwHqQGp
+        BemBu8DQ0NCvuLj4w9WrV99FRERs8/b2/pOamvp/0qRJ/ysrK/+D2CAxkNyKFSsegtSC9MANAJrW
+        1dTU9H3y5Mnp/v7+XPb29p/37t37/9y5c/8PHTr0f+3atf9BYiA5kBqQWpAeuAG6urqZ6enp76dN
+        m1YSFBS009HR8Zebm9v/wMBAMAaxQWIgOZAakFqQHrgBmkDg6+t7vbe39/2qVaverlu37v/06dP/
+        FxYW/q+oqACz+xe2/i+cGvMvrc//f0ST41+XXN2JcAPU1NSYgU408PLyup+SkvIlOzv7OxD/DA8P
+        jwNi58zauJ+NqxP/b7ky9f+FZ7v+9+/O+h/er/vfPFuyh6h0ENvu8n3j5Qn/N16bBLT0//+ePan/
+        +/ekgwz4TpQBPtWG/7ddmQPWDAObLk0FGUBcPrDMkf7evSvpf/uuBLD+9p0JpLkAaFNLcI/G/95d
+        Kf9BNoNoEJ/oMACFNlBxBxB/AjkbSneAxAEl0WlqJq1yxQAAAABJRU5ErkJggg==
+    </icon>
+    <properties>
+        <property key="lazyLoad" type="boolean" defaultValue="false">
+            <caption>Lazy load</caption>
+            <category>Behavior</category>
+            <description>Avoid loading until an event triggers one.</description>
+        </property>
+        <property key="source" type="entity" allowNonPersistableEntities="true">
+            <caption>Source entity</caption>
+            <category>Data source</category>
+            <description>Source entity</description>
+        </property>
+        <property key="reference" type="entity" isPath="yes" pathType="reference" entityProperty="source" allowNonPersistableEntities="true">
+            <caption>Reference entity path</caption>
+            <category>Data source</category>
+            <description>Path to the referenced entity</description>
+        </property>
+        <property key="displayAttr" type="attribute" entityProperty="reference">
+            <caption>Display Attribute</caption>
+            <category>Data source</category>
+            <description>Attribute to display in the selection dropdown</description>
+            <attributeTypes>
+                <attributeType name="AutoNumber"/>
+                <attributeType name="Currency"/>
+                <attributeType name="Enum"/>
+                <attributeType name="Float"/>
+                <attributeType name="Integer"/>
+                <attributeType name="Long"/>
+                <attributeType name="String"/>
+                <attributeType name="Decimal"/>
+            </attributeTypes>
+        </property>
+        <property key="xpathConstraint" type="entityConstraint" entityProperty="reference" required="false">
+            <caption>XPath contraint</caption>
+            <category>Selectable objects</category>
+            <description>XPath constraint to select only specific objects</description>
+        </property>
+        <property key="mfSelector" type="microflow" required="false">
+            <caption>Microflow</caption>
+            <category>Selectable objects</category>
+            <description>Microflow to fetch selectable objects</description>
+            <returnType type="Object" entityProperty="reference" isList="true"/>
+        </property>
+        <property key="nfSelector" type="nanoflow" required="false">
+            <caption>Nanoflow</caption>
+            <category>Selectable objects</category>
+            <description>Nanoflow to fetch selectable objects</description>
+            <returnType type="Object" entityProperty="reference" isList="true"/>
+        </property>
+        <property key="listenList" type="object" isList="true">
+            <caption>Listen Paths</caption>
+            <category>Selectable objects</category>
+            <description>Path that should be listened to for changes. When data in theses paths change, the reference list will be reloaded.</description>
+            <properties>
+                <property key="reference" type="entity" isPath="yes" pathType="reference" entityProperty="../source" allowNonPersistableEntities="true">
+                    <caption>Reference</caption>
+                    <category>Listening</category>
+                    <description>Choose a path via reference OR via reference set</description>
+                </property>
+                <!--As for 7.18.1, nanoflows don't support reference sets, so this is useless
+                <property key="referenceSet" type="entity" isPath="yes" pathType="referenceSet" entityProperty="../source" allowNonPersistableEntities="true">
+                    <caption>Reference Set</caption>
+                    <category>Listening</category>
+                    <description></description>
+                </property>-->
+            </properties>
+        </property>  
+        <property key="onChangeMf" type="microflow" required="false" entityProperty="source">
+            <caption>On change microflow</caption>
+            <category>Behavior</category>
+            <description>Microflow to trigger on change.</description>
+            <returnType type="Void"/>
+        </property>
+        <property key="onChangeNf" type="nanoflow" required="false" entityProperty="source">
+            <caption>On change nanoflow</caption>
+            <category>Behavior</category>
+            <description>Nanoflow to trigger on change.</description>
+            <returnType type="Void"/>
+        </property>
+      
+        <!--property key="sorting" type="object" isList="true" required="false">
+            <caption>Sorting</caption>
+            <category>Data source</category>
+            <description>Sorting the objects</description>
+            <properties>
+                <property key="sortAttr" type="attribute" isPath="optional" pathType="reference" entityProperty="../reference">
+                    <caption>Attribute</caption>
+                    <category>Data source</category>
+                    <description>An attribute to sort on</description>
+                    <attributeTypes>
+                        <attributeType name="AutoNumber"/>
+                        <attributeType name="Boolean"/>
+                        <attributeType name="Currency"/>
+                        <attributeType name="DateTime"/>
+                        <attributeType name="Enum"/>
+                        <attributeType name="Float"/>
+                        <attributeType name="Integer"/>
+                        <attributeType name="Long"/>
+                        <attributeType name="String"/>
+                    </attributeTypes>
+                </property>
+                <property key="sortOrder" type="enumeration" defaultValue="asc">
+                    <caption>Order</caption>
+                    <category>Data source</category>
+                    <description>The order in which to sort</description>
+                    <enumerationValues>
+                        <enumerationValue key="asc">Ascending</enumerationValue>
+                        <enumerationValue key="desc">Descending</enumerationValue>
+                    </enumerationValues>
+                </property>
+            </properties>
+        </property-->
+		<property key="showLabel" type="boolean" defaultValue="true">
+			<caption>Show Label</caption>
+			<category>Display</category>
+			<description>Show a label for the field.</description>
+		</property>  
+		<property key="fieldCaption" type="translatableString" required="false" multiline="false">
+			<caption>Label Caption</caption>
+			<category>Display</category>
+			<description>Specify the caption to use for the field</description>
+		</property>
+        <property key="orientation" type="enumeration" defaultValue="horizontal">
+			<caption>Orientation</caption>
+			<category>Display</category>
+			<description>Label orientation</description>
+            <enumerationValues>
+                <enumerationValue key="horizontal">Horizontal</enumerationValue>
+                <enumerationValue key="vertical">Vertical</enumerationValue>
+            </enumerationValues>
+		</property>  
+        <property key="labelWeight" type="integer" defaultValue="3">
+			<caption>Label weight</caption>
+			<category>Display</category>
+			<description>When using horizonal orientation, the bootstrap column weight of the label.</description>
+		</property>  
+    </properties>
+</widget>
